@@ -196,7 +196,7 @@ export class AppComponent {
         // Dev : G-F5B7WQR6RD
         // Prod : G-VYXFFHNN9S
 
-        if (environment.googleAnalyticsKey) {
+        if (environment.googleAnalyticsKey && this.isBrowser) {
           console.log(environment.googleAnalyticsKey);
           gtag('config', environment.googleAnalyticsKey, {
             page_title: this.router.url,
