@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   // apiUrl: 'http://52.88.252.214:90/QADemoCurately/',
-  // apiUrl: 'https://api.curately.ai/QADemoCurately/',
-   apiUrl: 'http://35.155.202.216:8080/QADemoCurately/',
+  apiUrl: 'https://api.curately.ai/QADemoCurately/',
+  //  apiUrl: 'http://35.155.202.216:8080/QADemoCurately/',
 
   // 'https://api.cxninja.com/DemoCurately/
   //http://35.155.202.216:8080/CSNinja-APIS/
