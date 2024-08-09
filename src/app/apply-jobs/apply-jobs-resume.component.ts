@@ -32,6 +32,7 @@ import { VerifyEmailAccountComponent } from '../common-component/modals/verify-e
 import { SharedService } from '../shared.service';
 import { Location, isPlatformBrowser } from '@angular/common';
 import * as moment from 'moment';
+import { Meta, Title } from '@angular/platform-browser';
 
 export interface Job {
 
@@ -184,7 +185,8 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
     private el: ElementRef,
     private location: Location,
     private render: Renderer2,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private meta: Meta
   ) {
     // if(this.actRoute.snapshot.params.id){
     //   this.jobIdFromMail = this.actRoute.snapshot.params.id;
@@ -1473,6 +1475,17 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
       (error) => { }
     );
   }
+  updateMetaTags(response: any): void {
+    // this.titleService.setTitle('Your Page Title');
+
+    // this.meta.updateTag({ name: 'description', content: 'Your page description' });
+    // this.meta.updateTag({ name: 'keywords', content: 'your, keywords, here' });
+
+    // Open Graph tags for social media
+    this.meta.updateTag({ property: 'og:title', content: response.jobTitle });
+    this.meta.updateTag({ property: 'og:description', content: response.publicJobDescr.replace(/<\/[^>]+(>|$)/g, "") });
+    // this.meta.updateTag({ property: 'og:image', content: 'https://example.com/image.jpg' });
+  }
   getcareerjobdetails() {
     let id = this.jobIdToLoad;
     // let datatopass = {
@@ -1495,6 +1508,7 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
           if (this.isBrowser) {
             localStorage.setItem('pageFrom', 'accuick');
           }
+          this.updateMetaTags(response.Job[0])
           this.policyList = response.Job[0].policy;
           console.log(this.policyList, 'this.policyList', response);
 
@@ -2164,6 +2178,8 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+
+
     this.sharedService.triggerHeaderNgOnInit();
     // this.sharedService.highVolume$.subscribe(({ status }) => {
     //   // console.log('highVolume:', status);
