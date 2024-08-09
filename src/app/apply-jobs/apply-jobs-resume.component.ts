@@ -6,7 +6,8 @@ import {
   ViewChild,
   AfterViewInit,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
+  Injector
 } from '@angular/core';
 import {
   FormBuilder,
@@ -32,7 +33,7 @@ import { VerifyEmailAccountComponent } from '../common-component/modals/verify-e
 import { SharedService } from '../shared.service';
 import { Location, isPlatformBrowser } from '@angular/common';
 import * as moment from 'moment';
-import { Meta, Title } from '@angular/platform-browser';
+import { TransferState, makeStateKey, Meta, Title } from '@angular/platform-browser';
 
 export interface Job {
 
@@ -99,6 +100,7 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
   file: File[] = [];
   fileExt = '';
   selectedJob: any;
+  jobData: any;
   showSpinner = false;
   searched = false;
   selectedIndex: number = 0;
@@ -160,6 +162,7 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
   HideSummary: any;
   isMobileHeight: any;
   policyList: any[] = [];
+  private META_TITLE_KEY = makeStateKey<string>('meta-title');
   @ViewChild('native') native: { nativeElement: any } | undefined;
   // @ViewChild("fileInput") fileField: {ElementRef:any} | undefined;
   @ViewChild('phoneNo') phoneNo: ElementRef | undefined;
@@ -178,7 +181,7 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
     private userService: UserAuthService,
     private auditlogService: AuditlogService,
     private toastr: ToastrService,
-    public rj: RemoveJunkTextService,
+    // public rj: RemoveJunkTextService,
     private router: Router,
     private actRoute: ActivatedRoute,
     private countChange: AssessmentCountService,
@@ -186,7 +189,10 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
     private location: Location,
     private render: Renderer2,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private meta: Meta
+    private meta: Meta,
+    private titleService: Title,
+    private injector: Injector,
+    private transferState: TransferState
   ) {
     // if(this.actRoute.snapshot.params.id){
     //   this.jobIdFromMail = this.actRoute.snapshot.params.id;
@@ -203,6 +209,10 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
       hours: [''],
       payRate: [''],
     });
+  }
+
+  private get rj() {
+    return this.injector.get(RemoveJunkTextService);
   }
   getJobs(type: any) {
     this.errorTxt = 'No Jobs Found';
@@ -1475,23 +1485,13 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
       (error) => { }
     );
   }
-  updateMetaTags(response: any): void {
-    // this.titleService.setTitle('Your Page Title');
 
-    // this.meta.updateTag({ name: 'description', content: 'Your page description' });
-    // this.meta.updateTag({ name: 'keywords', content: 'your, keywords, here' });
-
-    // Open Graph tags for social media
-    this.meta.updateTag({ property: 'og:title', content: response.jobTitle });
-    this.meta.updateTag({ property: 'og:description', content: response.publicJobDescr.replace(/<\/[^>]+(>|$)/g, "") });
-    // this.meta.updateTag({ property: 'og:image', content: 'https://example.com/image.jpg' });
-  }
   getcareerjobdetails() {
     let id = this.jobIdToLoad;
     // let datatopass = {
     //   "jobName": this.jobIdToLoad
     // }
-    this.userService.getjobdatabase(id, environment.clientId).subscribe(
+    this.userService.getjobdatabase(id, "3").subscribe(
       (response: any) => {
         this.showSpinner = false;
         console.log(response);
@@ -1508,6 +1508,8 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
           if (this.isBrowser) {
             localStorage.setItem('pageFrom', 'accuick');
           }
+          console.log("is coming", response.Job[0])
+          this.jobData = response.Job[0];
           this.updateMetaTags(response.Job[0])
           this.policyList = response.Job[0].policy;
           console.log(this.policyList, 'this.policyList', response);
@@ -2163,7 +2165,7 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
       );
     }
 
-    this.getcareerjobdetails();
+
     this.HideSummary = false;
     this.isMobile = window.innerWidth > 1050 ? true : false;
     //this.showMore = window.innerHeight < 720 ? true : false;
@@ -2179,6 +2181,20 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
+    this.actRoute.params.subscribe((params) => {
+      console.log('params');
+      console.log(params);
+      // this.jobIdFromMail = params.ti ? params.email : '';
+      this.jobIdToLoad = params.id ? params.id : '';
+      // if (params.id) {
+      //   this.jobIdToLoad = params.id;
+      // }
+    });
+    this.getcareerjobdetails();
+    // this.titleService.setTitle('New Title');
+    console.log(this.jobData, 'this.jobData')
+    // this.meta.updateTag({ property: 'og:title', content: this.jobData.jobTitle }, 'property="og:title"');
+    this.sharedService.triggerHeaderNgOnInit();
 
     this.sharedService.triggerHeaderNgOnInit();
     // this.sharedService.highVolume$.subscribe(({ status }) => {
@@ -2210,15 +2226,6 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
       this.isAlreadyOldUser = true;
     }
 
-    this.actRoute.params.subscribe((params) => {
-      console.log('params');
-      console.log(params);
-      // this.jobIdFromMail = params.ti ? params.email : '';
-      this.jobIdToLoad = params.id ? params.id : '';
-      // if (params.id) {
-      //   this.jobIdToLoad = params.id;
-      // }
-    });
     // alert(document.referrer);
     if (environment.clientId) {
       this.updateForm();
@@ -2273,8 +2280,23 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
 
     // this.getRecommendJobs();
   }
+
+  updateMetaTags(resp: any): void {
+    // console.log(response, 'eee')
+    // this.titleService.setTitle('Your Page Title');
+
+    // this.meta.updateTag({ name: 'description', content: 'Your page description' });
+    // this.meta.updateTag({ name: 'keywords', content: 'your, keywords, here' });
+
+    // Open Graph tags for social media
+    // const metaTitle = this.transferState.get(this.META_TITLE_KEY, resp.jobTitle);
+    this.meta.updateTag({ property: 'og:title', content: resp.jobTitle }, 'property="og:title"');
+    this.meta.updateTag({ property: 'og:description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') }, 'property="og:description"');
+    // this.meta.updateTag({ property: 'og:image', content: 'https://example.com/image.jpg' });
+  }
   async ngAfterViewInit() {
-    await this.loadScript('assets/js/cloudflare-script.js');
+
+    // await this.loadScript('assets/js/cloudflare-script.js');
     // console.log('isccaa')
     // var s = document.createElement("script");
     // s.type = "text/javascript";

@@ -54,6 +54,11 @@ import { MomentModule } from 'ngx-moment';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
+import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './auth/auth.guard';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+
+import { BrowserTransferStateModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -61,11 +66,13 @@ import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
     CareersComponent,
     ApplyJobsResumeComponent,
     VerifyEmailAccountComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     BrowserAnimationsModule,
+    BrowserTransferStateModule,
     HttpClientModule,
     MatCheckboxModule,
     MatCheckboxModule,
@@ -120,6 +127,10 @@ import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
       useClass: TokenexpireService,
       multi: true,
     },
+
+    AuthGuard,
+    BsModalRef,
+    BsModalService,
     // Meta,
     // ,
     //  {

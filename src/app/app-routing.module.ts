@@ -5,6 +5,7 @@ import { CareersComponent } from './careers/careers.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { VerifyEmailAccountComponent } from './common-component/modals/verify-email-account/verify-email-account.component';
 import { MaterialModule } from './shared/material/material.module';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
 
     ]
   },
+  { path: "home", component: HomeComponent }
 ];
 
 @NgModule({

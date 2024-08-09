@@ -1,4 +1,5 @@
-<router-outlet *ngIf="!showSpinner"></router-outlet>
+<router-outlet></router-outlet>
+
 
 <div *ngIf="showSpinner" class="spinner-container">
   <mat-spinner color="warn" *ngIf="showSpinner"></mat-spinner>
