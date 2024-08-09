@@ -1,0 +1,52 @@
+.chatbot-width-align {
+	display: var(--show-chatbot);
+	width: 94px;
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	z-index: 1040;
+	height: 94px;
+	margin-bottom: 0rem;
+	margin-right: 1rem;
+	/* cursor: move; */
+	/* padding: 5px; */
+	/* border: 1px solid red; */
+}
+
+.iframe-align {
+	width: 100%;
+	height: 100%;
+}
+
+#blur-background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1031;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+}
+
+@media only screen and (max-width: 600px) {
+	.chatbot-width-align {
+		width: 100px;
+		position: fixed;
+		bottom: 0px;
+		right: 0px;
+		z-index: 1040;
+		height: 90px;
+		margin-bottom: 0rem;
+		margin-right: 0rem;
+		/* cursor: move; */
+		/* padding: 5px; */
+		/* border: 1px solid red; */
+	}
+
+	.iframe-align {
+		width: 100%;
+		height: 100%;
+	}
+
+}

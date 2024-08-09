@@ -1,0 +1,522 @@
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light12"> -->
+<!-- <div class="container-fluid text-center">
+    <a class="navbar-brand" href="{{ logoUrl }}">
+      <img src="assets/new/curately-logo.svg" alt="" width="180" height="50" />
+    </a>
+  </div> -->
+<!-- </nav> -->
+<div id="wrapper" class="dashboard-box">
+
+  <div class="container px-sm-0">
+
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10 cur-main">
+
+        <div id="jobsContent">
+          <div class="row">
+            <!-- Job Description -->
+            <div class="col-sm-12 job-card">
+              <p style="    max-width: 700px;margin: 10px auto 10px;"><span class="confirm-check"><a
+                    (click)="backtoresults()" style="cursor: pointer;"><mat-icon>keyboard_backspace</mat-icon>
+                    Back to
+                    results</a></span>
+              </p>
+              <div id="jobdesc-apply" [hidden]="!selectedJob"
+                [ngClass]="!isMobile && showMore ? 'card mobilemargin' : 'card'">
+
+                <div class="jobdesc-header">
+                  <!---- 1-isMobile -->
+                  <div *ngIf="!isMobile" [ngClass]="!isMobile && showMore ? 'Hide-Summary' : ''"
+                    class="col-sm-12 mx-0 my-0 mt-0">
+                    <!-- <div class="cxninja-logo-cont">
+                      <img class="left-arrow" src="assets/icons/chevron-left@2x.png" />
+                      <a class="navbar-brand" href="{{logoUrl}}">
+                        <img class="logo-img" src="assets/new/curately-logo.svg" alt="" width="180" height="56">
+                      </a>
+                    </div> -->
+                    <div class="d-flex justify-content-between selectjob">
+                      <div class="selectjob-title">
+                        <strong [title]="selectedJob.jobTitle">{{
+                          selectedJob.jobTitle
+                          }}
+                          <!-- <span
+                            *ngIf="selectedJob.workType">
+                            ({{selectedJob.workType}})
+                          </span> -->
+                        </strong>
+                      </div>
+                    </div>
+                    <div class="title_cls_items">
+                      <div *ngIf="selectedJob.workType" class="location-tag-con" style="display:flex">
+                        <img class="location-icon-style" src="assets/icons/wifi-solid.svg" style="align-self:center"
+                          *ngIf="selectedJob.workType == '1'" />
+                        <i class="fa fa-building" *ngIf="selectedJob.workType == '3'"></i>
+                        <i class="fa fa-arrows-h" *ngIf="selectedJob.workType == '2'"></i>
+                        <span
+                          style="align-self:center;font-size: 14px;font-weight: 600;">&nbsp;{{workTypeList[selectedJob.workType]}}</span>
+
+                      </div>
+                      <div class="location-tag-con" *ngIf="selectedJob.jobType" style="display:flex">
+
+                        <img src="assets/icons/briefcase@2x.svg" style="vertical-align: baseline;"
+                          style="align-self:center" />
+                        <span style="align-self:center;font-size: 14px;font-weight: 600;">
+                          &nbsp;{{jobTypesList[selectedJob.jobType]}}
+                        </span>
+                        <!-- <span *ngFor="let empType of selectedJob.employmentTypes_;  index as ind"
+                          style="align-self:center;font-size: 14px;font-weight: 600;">
+                          &nbsp;{{jobTypesList[empType]}} {{ind < selectedJob.employmentTypes_.length - 1 ? ', ' : '' }}
+                            </span> -->
+                      </div>
+                    </div>
+                    <ul class="mb-3 jobmeta">
+                      <li *ngIf="selectedJob.addresses_">
+                        <i class="fa fa-map-marker"></i> {{checkZipZeros(selectedJob.addresses_)}}
+                      </li>
+                      <!-- <li>
+
+                        <img src="assets/icons/briefcase@2x.svg" style="vertical-align: baseline;" />
+                        <span class="job-value" *ngFor="let empType of selectedJob.employmentTypes_;  index as ind">
+                          {{jobTypesList[empType]}} {{ind < selectedJob.employmentTypes_.length - 1 ? ', ' : '' }}
+                            </span>
+                      </li> -->
+                      <li>
+                        <span class="job-value">
+                          <i class="fa fa-usd"></i>
+                          {{selectedJob.payrateMin}}
+                        </span>
+                        <span class="job-value" *ngIf="selectedJob.payrateMax != ''">
+                          -
+                        </span>
+                        <span class="job-value" *ngIf="selectedJob.payrateMax != ''">
+                          <i class="fa fa-usd"></i>
+                          {{selectedJob.payrateMax}}
+                        </span>
+                      </li>
+                      <!-- <li>
+                        <i class="fa fa-building"></i>{{ selectedJob.companyDisplayName_ }}
+                      </li>
+                      <li>
+                        <i class="fa fa-map-marker"></i> {{ selectedJob.city }}
+                        <span *ngIf="selectedJob.city && selectedJob.state">,
+                        </span> {{ selectedJob.state }}
+                      </li>
+                      <li>
+                        <i class="fa fa-usd"></i>
+                        <span *ngIf="selectedJob.customAttributes_.mapData.payrange">
+                          {{ selectedJob.customAttributes_.mapData.payrange.stringValues_ }}
+                        </span>
+                      </li> -->
+                      <li class="job_loc">
+                        <i class="fa fa-hashtag" aria-hidden="true"></i>
+                        <span>
+                          {{ "15"+selectedJob.accuickJobId }}
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                  <!---- 1-desktop -->
+                  <div *ngIf="isMobile" [ngClass]="
+                      isMobile && showMore ? 'Hide-Summary-desktop' : ''
+                    " class="col-sm-12 mx-0 my-0 mt-0 d-flex justify-content-between card"
+                    style="box-shadow:none;padding:0px;">
+                    <div style="width: 80%;">
+                      <div class="d-flex justify-content-between selectjob">
+                        <div class="selectjob-title mt-0">
+                          <strong [title]="selectedJob.jobTitle">{{
+                            selectedJob.jobTitle
+                            }}
+                            <!-- <span
+                              *ngIf="selectedJob.workType">
+                              ({{selectedJob.workType}})
+                            </span> -->
+                          </strong>
+                        </div>
+                      </div>
+                      <div class="title_cls_items">
+                        <div *ngIf="selectedJob.workType" class="location-tag-con" style="display:flex">
+                          <img class="location-icon-style" src="assets/icons/wifi-solid.svg" style="align-self:center"
+                            *ngIf="selectedJob.workType == '1'" />
+                          <i class="fa fa-building" *ngIf="selectedJob.workType == '3'"></i>
+                          <i class="fa fa-arrows-h" *ngIf="selectedJob.workType == '2'"></i>
+                          <span
+                            style="align-self:center;font-size: 14px;font-weight: 600;">&nbsp;{{workTypeList[selectedJob.workType]}}</span>
+
+                        </div>
+                        <div class="location-tag-con" *ngIf="selectedJob.jobType" style="display:flex">
+
+                          <img src="assets/icons/briefcase@2x.svg" style="vertical-align: baseline;"
+                            style="align-self:center" />
+                          <span style="align-self:center;font-size: 14px;font-weight: 600;">
+                            &nbsp;{{jobTypesList[selectedJob.jobType]}}
+                          </span>
+                          <!-- <span *ngFor="let empType of selectedJob.employmentTypes_;  index as ind"
+                            style="align-self:center;font-size: 14px;font-weight: 600;">
+                            &nbsp;{{jobTypesList[empType]}} {{ind < selectedJob.employmentTypes_.length - 1 ? ', ' : ''
+                              }} </span> -->
+                        </div>
+                      </div>
+                      <ul class="mb-3 jobmeta">
+                        <!-- <li class="job_loc">
+                          <i class="fa fa-building"></i>{{ selectedJob.companyDisplayName_ }}
+                        </li> -->
+                        <li class="job_loc" *ngIf="selectedJob.addresses_">
+                          <i class="fa fa-map-marker"></i> {{checkZipZeros(selectedJob.addresses_)}}
+                        </li>
+                        <!-- <li class="job_loc" *ngIf="selectedJob.employmentTypes_.length > 0">
+
+                          <img src="assets/icons/briefcase@2x.svg" style="vertical-align: baseline;" />
+                          <span class="job-value" *ngFor="let empType of selectedJob.employmentTypes_;  index as ind">
+                            {{jobTypesList[empType]}} {{ind < selectedJob.employmentTypes_.length - 1 ? ', ' : '' }}
+                              </span>
+                        </li> -->
+                        <li>
+                          <span class="job-value">
+                            <i class="fa fa-usd"></i>
+                            {{selectedJob.payrateMin}}
+                          </span>
+                          <span class="job-value" *ngIf="selectedJob.payrateMax != ''">
+                            -
+                          </span>
+                          <span class="job-value" *ngIf="selectedJob.payrateMax != ''">
+                            <i class="fa fa-usd"></i>
+                            {{selectedJob.payrateMax}}
+                          </span>
+                        </li>
+                        <li class="job_loc">
+                          <i class="fa fa-hashtag" aria-hidden="true"></i>
+                          <span>
+                            {{ "15"+selectedJob.accuickJobId }}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+
+
+                  </div>
+                  <!---- 2 -->
+                  <div class="content">
+                    <div class="row form-tabs">
+                      <form [formGroup]="loginForm" (submit)="submitForm($event)" *ngIf="loginForm">
+                        <mat-card>
+                          <h5 class="title text-md-left mt-0 mb-3">
+                            Apply for this positions
+                          </h5>
+                          <mat-card-content class="row">
+                            <!-- Desktop device -->
+                            <mat-form-field class="full-width-input col-xs-12 col-sm-12 mr-2 pb-0" appearance="outline">
+                              <mat-label>Email Address</mat-label>
+                              <input #email matInput placeholder="Email Address" formControlName="email" required
+                                (blur)="checkEmail($event)" (focus)="onFocusEmailField()" />
+                              <mat-error class="errorMessage" *ngIf="
+                                  (submitted &&
+                                    !loginForm.controls.email.touched) ||
+                                  loginForm.controls.email.touched
+                                ">
+                                <span *ngIf="
+                                    loginForm.controls.email.errors?.required
+                                  ">Enter a valid email address
+                                </span>
+                                <span *ngIf="
+                                    loginForm.controls.email.errors?.pattern
+                                  ">The Email ID format is incorrect. Please
+                                  enter a valid email ID.
+                                </span>
+                              </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="full-width-input col-xs-12 col-sm-12 mr-2 pb-0" appearance="outline">
+                              <mat-label>First Name</mat-label>
+                              <input #firstName matInput placeholder="First Name" appAutoFocusDirective123
+                                formControlName="firstName" required />
+                              <mat-error class="errorMessage" *ngIf="
+                                  (submitted &&
+                                    !loginForm.controls.firstName.touched) ||
+                                  loginForm.controls.firstName.touched
+                                ">
+                                <span *ngIf="
+                                    loginForm.controls.firstName.errors
+                                      ?.required
+                                  ">Enter your first name</span>
+                              </mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="full-width-input col-xs-12 col-sm-12 mr-2 pb-0" appearance="outline">
+                              <mat-label>Last Name</mat-label>
+                              <input #lastName matInput placeholder="Last Name" formControlName="lastName" required />
+                              <mat-error class="errorMessage" *ngIf="
+                                  (submitted &&
+                                    !loginForm.controls.lastName.touched) ||
+                                  loginForm.controls.lastName.touched
+                                ">
+                                <span *ngIf="
+                                    loginForm.controls.lastName.errors?.required
+                                  ">Enter your last name</span>
+                              </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field class="full-width-input col-xs-12 col-sm-12 mr-2 mt-2" appearance="outline">
+                              <mat-label>Mobile Number</mat-label>
+                              <input matInput #phoneNo placeholder="Mobile Number" type="text"
+                                (keypress)="numberOnly($event)" formControlName="phoneNo" required mobMask
+                                (paste)="dontAllow()" minlength="12" maxlength="12" />
+                              <mat-error class="errorMessage" *ngIf="
+                                  (submitted &&
+                                    !loginForm.controls.phoneNo.touched) ||
+                                  loginForm.controls.phoneNo.touched
+                                ">
+                                <span *ngIf="
+                                    loginForm.controls.phoneNo.errors?.required
+                                  ">Enter a valid phone number</span>
+                                <span *ngIf="
+                                    loginForm.controls.phoneNo.errors?.pattern
+                                  ">Please enter valid 10 digit mobile number.
+                                </span>
+                              </mat-error>
+                            </mat-form-field>
+                            <div class="row mt-3 text-xs-center text-sm-left pe-0 upload-main"
+                              style="justify-content: center;padding-right:0" [hidden]="isUserGuestFromResume"
+                              id="file-id">
+                              <div class="col-xs-12 col-sm-6 mb-0 upload-main_resume" style="padding-right:0">
+                                <div class="row g-0 uploaded-file-name" *ngIf="file.length">
+                                  <div class="col-10 text-left mt-1 file-name-ellipse">
+                                    <span class="file-name">
+                                      <i class="fa fa-file-o" aria-hidden="true" style="color:#000000"></i>&nbsp;
+                                      {{
+                                      this.file && this.file.length
+                                      ? this.file[0].name
+                                      : "myresume.pdf"
+                                      }}</span>
+                                  </div>
+                                  <div class="col-2 text-right">
+                                    <span class="delete-resume fs-5">
+                                      <i class="fa fa-times" aria-hidden="true" (click)="deleteFile()"></i>
+                                    </span>
+                                  </div>
+                                </div>
+                                <!-- <p
+                                  class="uploaded-file-name"
+                                  *ngIf="file.length"
+                                >
+                                  <span class="file-name">
+                                    <i
+                                      class="fa fa-file-o"
+                                      aria-hidden="true"
+                                    ></i
+                                    >&nbsp;
+                                    {{
+                                      this.file && this.file.length
+                                        ? this.file[0].name
+                                        : "myresume.pdf"
+                                    }}</span
+                                  >
+                                  <span class="delete-resume">
+                                    <i
+                                      class="fa fa-times"
+                                      aria-hidden="true"
+                                      (click)="deleteFile()"
+                                    ></i>
+                                  </span>
+                                </p> -->
+                                <p class="upload-resume-btn mb-0" [ngClass]="[
+                                    submitted && !isUserGuestFromResume && 
+                                    loginForm.controls.file.errors?.required
+                                      ? 'upload-btn-error'
+                                      : ''
+                                  ]" (click)="fileInput.click()" [hidden]="file.length">
+                                  <img src="assets/new/upload_2_fill_icon.svg" alt="" width="25" height="25"
+                                    style="justify-content: center;" /> Upload resume
+                                  <input #fileInput type="file" (change)="onSelectFile($event, fileInput)"
+                                    style="display: none" accept=".doc,.docx,.pdf" formControlName="file" />
+                                </p>
+                                <mat-error class="errorMessage" *ngIf="submitted && !isUserGuestFromResume">
+                                  <span class="error-resume" *ngIf="
+                                      loginForm.controls.file.errors?.required
+                                    ">Please select your resume.</span>
+                                </mat-error>
+                              </div>
+                            </div>
+                            <!-- <div mat-dialog-actions class="d-flex mt-2 keepmeSigned" *ngIf="!highVolume">
+                              <mat-checkbox formControlName="userType" class="example-margin mb-3">
+                                <div class="text-wrap confirm-check" *ngIf="!policyList.length">
+                                  By applying to this job you are creating an account, agreeing to the <a
+                                    href="javascript:void(0);">
+                                    <span style="color: #146ef6;" (click)="openCandidateBenefitsModal()">terms.</span>
+                                  </a> and permitting texts/calls about your
+                                  application (message/data rates may apply)
+
+                                </div>
+                                <div class="text-wrap confirm-check" *ngIf="policyList.length">
+                                  <span>By applying to this job you are creating an account, agreeing to the</span>
+                                  <ng-container *ngFor="let policy of policyList;  index as ind">
+                                    <a href="javascript:void(0);">
+                                      <span style="color: #146ef6;" (click)="openTermsContent(policy)">
+                                        {{policy.policyName}}</span><span *ngIf="ind!=policyList.length-1">,</span>
+                                    </a>
+                                  </ng-container>
+
+                                  and permitting texts/calls about your
+                                  application (message/data rates may apply)
+
+                                </div>
+                              </mat-checkbox>
+                            </div> -->
+                            <div mat-dialog-actions class="d-flex mt-2 keepmeSigned" id="terms-id">
+                              <mat-checkbox formControlName="terms" required class="example-margin mb-3" [ngClass]="
+                             ( (submitted &&
+                                !loginForm.controls.lastName.touched) ||
+                              loginForm.controls.lastName.touched) ? 'checkbox-touched':'' " #terms>
+                                <div class="text-wrap confirm-check">
+                                  Applying to this job you are creating an account, Agreeing to
+                                  <ng-container *ngFor="let policy of policyList;  index as ind">
+                                    <a href="javascript:void(0);" *ngIf="!policy.policyDownloadPath">
+                                      <span style="color: #146ef6;" (click)="openTermsContent(policy)">
+                                        {{policy.policyName}}</span><span *ngIf="ind!=policyList.length-1">,</span>
+                                    </a>
+                                    <!-- href="{{getUrlPath(policy)}}" -->
+                                    <a href="javascript:void(0);" download *ngIf="policy.policyDownloadPath">
+                                      <span style="color: #146ef6;" (click)="openTermsContent(policy)">
+                                        {{policy.policyName}}</span><span *ngIf="ind!=policyList.length-1">,</span>
+                                    </a>
+                                  </ng-container> and permitting
+                                  text/calls about your application (Message/data rate may apply)
+
+                                </div>
+                                <mat-error style="position: absolute;" class="errorMessage" *ngIf="
+                                (submitted &&
+                                  !loginForm.controls.terms.touched) ||
+                                loginForm.controls.terms.touched
+                              ">
+                                  <span *ngIf="
+                                  loginForm.controls.terms.errors?.required
+                                ">Please select terms & conditions</span>
+                                </mat-error>
+                              </mat-checkbox>
+                            </div>
+                            <div class="cf-turnstile-container" style="margin-top: 25px; text-align: center;"></div>
+                            <!-- <div class="cf-turnstile-container"></div> -->
+                            <div *ngIf="!showMore" class="row mt-3 text-xs-center text-sm-left pe-0">
+                              <!-- <div
+                                class="col-xs-12 col-sm-6 mb-4 upload-resume-container p-2 d-flex justify-content-center"
+                              >
+                                <button
+                                  class="upload-resume-btn"
+                                  (click)="submitForm($event)"
+                                  mat-raised-button
+                                  [color]="color"
+                                  (mouseover)="color = 'warn'"
+                                  (mouseout)="color = 'accent'"
+                                >
+                                  Submit1
+                                </button>
+                              </div> -->
+                            </div>
+                            <!-- Description -->
+                            <div class="jobdesc-body">
+                              <h4 class="jd-title"><b>Job Summary</b></h4>
+                              <div class="jobrief ckTxt job-summury-desc" [innerHtml]="selectedJob.interJobDescr"></div>
+                              <div #native class="row mt-3 text-xs-center text-sm-left pe-0 footer">
+                                <div
+                                  class="col-xs-12 col-sm-12 p-1 text-center upload-resume-container p-2 d-flex justify-content-center">
+                                  <!-- [disabled]="
+                                      (submitted &&
+                                        loginForm.get('firstName')?.invalid &&
+                                        loginForm.get('lastName')?.invalid &&
+                                        loginForm.get('email')?.invalid &&
+                                        loginForm.get('phoneNo')?.invalid &&
+                                        loginForm.get('file')?.invalid) ||
+                                      (loginForm.get('firstName')?.invalid &&
+                                        (loginForm.get('firstName')?.dirty ||
+                                          loginForm.get('firstName')
+                                            ?.touched)) ||
+                                      (loginForm.get('lastName')?.invalid &&
+                                        (loginForm.get('lastName')?.dirty ||
+                                          loginForm.get('lastName')
+                                            ?.touched)) ||
+                                      (loginForm.get('email')?.invalid &&
+                                        (loginForm.get('email')?.dirty ||
+                                          loginForm.get('email')?.touched)) ||
+                                      (loginForm.get('phoneNo')?.invalid &&
+                                        (loginForm.get('phoneNo')?.dirty ||
+                                          loginForm.get('phoneNo')?.touched)) ||
+                                      (loginForm.get('file')?.invalid &&
+                                        (loginForm.get('file')?.dirty ||
+                                          loginForm.get('file')?.touched))
+                                    " -->
+                                  <button *ngIf="isSubmit" [disabled]="isEmailFocused" type="submit" #submitButton
+                                    class="upload-resume-btn submit-btn" mat-raised-button>
+                                    Submit
+                                  </button>
+                                  <button *ngIf="!isSubmit" [disabled]="isEmailFocused" type="submit" #submitButton
+                                    class="upload-resume-btn submit-btn" mat-raised-button>
+                                    Continue
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- <div
+                              class="selectjob-description mb-3 mt-3"
+                              *ngIf="selectedJob.description_.length > 150"
+                              (click)="showMore = !showMore"
+                            >
+                              <button class="">
+                                {{
+                                  !showMore
+                                    ? "Read Full Summary"
+                                    : "Hide Summary"
+                                }}
+                              </button>
+                            </div> -->
+                          </mat-card-content>
+                        </mat-card>
+                      </form>
+                    </div>
+                  </div>
+                  <!-- 2- end -->
+                  <div class="row form-tabs p-3" *ngIf="!jobsTab">
+                    <h5 class="mb-2 mt-2 px-0">
+                      Apply with resume (less than 1 min)
+                    </h5>
+                    <div class="text-center">
+                      <div class="resumeDiv text-center mt-2">
+                        <button (click)="fileInput.click()"
+                          class="btn align-middle btn-primary btn-outline-dark btn-capsule">
+                          <i class="fa fa-cloud-upload-alt"></i> Browse Resume
+                          <input #fileInput type="file" (change)="onSelectFile($event, fileInput)" style="display: none"
+                            accept=".doc,.docx,.pdf" />
+                        </button>
+                        <!-- <div class='resumeText'>Supported upload formats: 2MB max in .DOC, .DOCX, or .PDF</div> -->
+                      </div>
+                      <div class="mt-2 mb-1 guestloginOr">OR</div>
+                      <div class="resume-text">
+                        <p>
+                          Don't have a resume? Create one with
+                          <strong>CX</strong>ninja's FREE resume builder.
+                        </p>
+                        <a href="javascript:void(0);" (click)="goToResumeBuilder()"
+                          class="btn btn-outline-dark btn-capsule">
+                          <!-- <i class="fa fa-cloud-upload-alt"></i> -->
+                          Create Resume
+                          <!-- <input #fileInput type="file"  (change)="onSelectFile($event,fileInput)"
+                      style="display:none;" accept=".doc,.docx,.pdf" /> -->
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <button href="javascript:void(0);" class="btn btn-primary mt-3 ml-0 mb-0 text-white"  (click)="applyJob()"
+                    *ngIf="!selectedJob.applied">
+                    Apply Now
+                  </button>
+                  <a href="javascript:void(0);" class="btn btn-success mt-3 ml-0 mb-0 text-white"
+                    *ngIf="selectedJob.applied">
+                    Applied
+                  </a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-spinner color="warn" *ngIf="showSpinner"></mat-spinner>
