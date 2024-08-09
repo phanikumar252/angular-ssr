@@ -2291,7 +2291,11 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
     // Open Graph tags for social media
     // const metaTitle = this.transferState.get(this.META_TITLE_KEY, resp.jobTitle);
     this.meta.updateTag({ property: 'og:title', content: resp.jobTitle }, 'property="og:title"');
-    this.meta.updateTag({ property: 'og:description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') }, 'property="og:description"');
+    this.meta.updateTag({ property: 'og:description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') },
+      'property="og:description"');
+    this.meta.addTag(
+      { name: 'description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') }
+    );
     // this.meta.updateTag({ property: 'og:image', content: 'https://example.com/image.jpg' });
   }
   async ngAfterViewInit() {
