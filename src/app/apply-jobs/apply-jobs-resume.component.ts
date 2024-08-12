@@ -2295,8 +2295,8 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
     this.meta.updateTag({ name: 'description', property: 'og:description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') },
       'property="og:description"');
     this.showSpinner = false;
-    if (this.isBrowser)
-      window.location.href = "https://careers.curately.ai" + location.pathname;
+    // if (this.isBrowser)
+    // window.location.href = "https://careers.curately.ai" + location.pathname;
     // this.meta.addTag(
     //   { name: 'description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') }
     // );
@@ -2327,67 +2327,68 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
 
   private addJsonLdSchema() {
     console.log('is addJsonLdSchema');
-
-    const schemaData = {
-      '@context': 'https://schema.org/',
-      '@type': 'JobPosting',
-      title: this.selectedJob.jobTitle,
-      description: this.selectedJob.interJobDescr,
-      directApply: true,
-      identifier: {
-        '@type': 'PropertyValue',
-        name: 'Curately',
-        value: '5964832',
-      },
-      datePosted: this.dateFormat(this.selectedJob.createDate),
-      validThrough: '**Job Expiry Date**',
-      employmentType: this.jobTypesList[this.selectedJob.jobType],
-      hiringOrganization: {
-        '@type': 'Organization',
-        // "name": this.clientDetailsObj.clientName,
-        // "sameAs": "**Client Career Portal URL**",
-        // "logo": this.clientDetailsObj.logo
-        name: this.isBrowser ? localStorage.getItem('clientName') : '',
-        sameAs: '**Client Career Portal URL**',
-        logo: this.isBrowser ? localStorage.getItem('cLogo') : '',
-      },
-      applicantLocationRequirements: {
-        '@type': 'Country',
-        name: this.selectedJob.workState,
-      },
-      jobLocationType: '',
-      jobLocation: {
-        '@type': 'Place',
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: '**Job Street Address**',
-          addressLocality: this.selectedJob.workCity,
-          addressRegion: ' *Job Region or State* ',
-          postalCode: this.selectedJob.workZipcode,
-          addressCountry: this.selectedJob.workState,
+    if (this.selectedJob) {
+      const schemaData = {
+        '@context': 'https://schema.org/',
+        '@type': 'JobPosting',
+        title: this.selectedJob.jobTitle,
+        description: this.selectedJob.interJobDescr,
+        directApply: true,
+        identifier: {
+          '@type': 'PropertyValue',
+          name: 'Curately',
+          value: '5964832',
         },
-      },
-      workHours: '',
-      jobImmediateStart: 'Yes',
-      jobStartDate: '**Job Start Date**',
-      skills: '**Job Skills Separated by Comma**',
-      totalJobOpenings: 1,
-      baseSalary: {
-        '@type': 'MonetaryAmount',
-        currency: 'USD',
-        value: {
-          '@type': 'QuantitativeValue',
-          maxValue: this.selectedJob.payrateMax,
-          minValue: this.selectedJob.payrateMin,
-          unitText: 'HOUR',
+        datePosted: this.dateFormat(this.selectedJob.createDate),
+        validThrough: '**Job Expiry Date**',
+        employmentType: this.jobTypesList[this.selectedJob.jobType],
+        hiringOrganization: {
+          '@type': 'Organization',
+          // "name": this.clientDetailsObj.clientName,
+          // "sameAs": "**Client Career Portal URL**",
+          // "logo": this.clientDetailsObj.logo
+          name: this.isBrowser ? localStorage.getItem('clientName') : '',
+          sameAs: '**Client Career Portal URL**',
+          logo: this.isBrowser ? localStorage.getItem('cLogo') : '',
         },
-      },
-    };
-    if (this.isBrowser) {
-      const s = document.createElement('script');
-      s.type = 'application/ld+json';
-      s.text = JSON.stringify(schemaData);
-      document.head.appendChild(s);
+        applicantLocationRequirements: {
+          '@type': 'Country',
+          name: this.selectedJob.workState,
+        },
+        jobLocationType: '',
+        jobLocation: {
+          '@type': 'Place',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: '**Job Street Address**',
+            addressLocality: this.selectedJob.workCity,
+            addressRegion: ' *Job Region or State* ',
+            postalCode: this.selectedJob.workZipcode,
+            addressCountry: this.selectedJob.workState,
+          },
+        },
+        workHours: '',
+        jobImmediateStart: 'Yes',
+        jobStartDate: '**Job Start Date**',
+        skills: '**Job Skills Separated by Comma**',
+        totalJobOpenings: 1,
+        baseSalary: {
+          '@type': 'MonetaryAmount',
+          currency: 'USD',
+          value: {
+            '@type': 'QuantitativeValue',
+            maxValue: this.selectedJob.payrateMax,
+            minValue: this.selectedJob.payrateMin,
+            unitText: 'HOUR',
+          },
+        },
+      };
+      if (this.isBrowser) {
+        const s = document.createElement('script');
+        s.type = 'application/ld+json';
+        s.text = JSON.stringify(schemaData);
+        document.head.appendChild(s);
+      }
     }
   }
 
