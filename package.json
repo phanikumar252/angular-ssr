@@ -41,6 +41,7 @@
     "angularx-social-login-fork-gb": "^1.2.11",
     "bootstrap": "^5.0.2",
     "bootstrap-icons": "^1.5.0",
+    "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "current-device": "^0.10.2",
     "dom-to-image": "^2.6.0",

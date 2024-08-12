@@ -4,6 +4,8 @@ import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { join } from 'path';
 
+import * as cors from "cors"
+
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
@@ -27,6 +29,10 @@ export function app(): express.Express {
   // Serve static files from /browser
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
+  }));
+
+  server.use(cors({
+    origin: 'https://careersqa.curately.ai', // replace with your domain
   }));
 
   // All regular routes use the Universal engine
