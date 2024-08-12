@@ -2282,6 +2282,7 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
   }
 
   updateMetaTags(resp: any): void {
+    this.showSpinner = true;
     // console.log(response, 'eee')
     // this.titleService.setTitle('Your Page Title');
 
@@ -2291,11 +2292,15 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
     // Open Graph tags for social media
     // const metaTitle = this.transferState.get(this.META_TITLE_KEY, resp.jobTitle);
     this.meta.updateTag({ property: 'og:title', content: resp.jobTitle }, 'property="og:title"');
-    this.meta.updateTag({ property: 'og:description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') },
+    this.meta.updateTag({ name: 'description', property: 'og:description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') },
       'property="og:description"');
-    this.meta.addTag(
-      { name: 'description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') }
-    );
+    this.showSpinner = false;
+    if (this.isBrowser)
+      window.location.href = "https://careers.curately.ai" + location.pathname;
+    // this.meta.addTag(
+    //   { name: 'description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') }
+    // );
+
     // this.meta.updateTag({ property: 'og:image', content: 'https://example.com/image.jpg' });
   }
   async ngAfterViewInit() {
