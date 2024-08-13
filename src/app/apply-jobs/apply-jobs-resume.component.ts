@@ -2295,8 +2295,8 @@ export class ApplyJobsResumeComponent implements OnInit, AfterViewInit {
     this.meta.updateTag({ name: 'description', property: 'og:description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') },
       'property="og:description"');
     this.showSpinner = false;
-    // if (this.isBrowser)
-    // window.location.href = "https://careers.curately.ai" + location.pathname;
+    if (this.isBrowser)
+      window.location.href = "https://careers.curately.ai" + location.pathname;
     // this.meta.addTag(
     //   { name: 'description', content: resp.publicJobDescr.replace(/<[^>]*>/g, '') }
     // );
